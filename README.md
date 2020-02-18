@@ -9,5 +9,5 @@ Collection of useful helpers for Concrete5
 
 Include library to your composer.json
 ```bash
-composer require xanweb/c5-helper
+composer require xanweb/c5-helpers
 ```
