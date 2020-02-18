@@ -4,6 +4,9 @@
     "keywords": ["concrete5", "concrete5-v8", "helpers"],
     "type": "library",
     "license": "MIT",
+    "require": {
+        "php": ">=7.2"
+    },
     "autoload": {
         "files": [
             "bootstrap/helpers.php"
