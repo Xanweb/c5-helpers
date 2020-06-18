@@ -5,12 +5,8 @@ class Path
 {
     /**
      * Get absolute path from relative.
-     *
-     * @param string $relativePath  relative path
-     *
-     * @return string
      */
-    public static function getAbsolutePath($relativePath)
+    public static function getAbsolutePath(string $relativePath): string
     {
         if (static::isAbsolutePath($relativePath)) {
             return $relativePath;
@@ -25,12 +21,8 @@ class Path
 
     /**
      * Check if path is absolute.
-     *
-     * @param  string $path
-     *
-     * @return string
      */
-    public static function isAbsolutePath($path)
+    public static function isAbsolutePath(string $path): bool
     {
         return strpos($path, DIR_BASE) !== false;
     }

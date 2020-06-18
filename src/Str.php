@@ -2,18 +2,14 @@
 namespace Xanweb\Helper;
 
 use voku\helper\UTF8;
-use Localization;
+use Concrete\Core\Localization\Localization;
 
 class Str
 {
     /**
      * Replace special chars with normal ones.
-     *
-     * @param  string  string with accents
-     *
-     * @return string
      */
-    public static function removeAccents($string)
+    public static function removeAccents(string $string): string
     {
         if (!preg_match('/[\x80-\xff]/', $string)) {
             return $string;
@@ -199,7 +195,7 @@ class Str
             // Used for locale-specific rules
             $locale = Localization::activeLocale();
 
-            if ('de_DE' == $locale || 'de_DE_formal' == $locale) {
+            if ('de_DE' === $locale || 'de_DE_formal' === $locale) {
                 $chars[chr(195) . chr(132)] = 'Ae';
                 $chars[chr(195) . chr(164)] = 'ae';
                 $chars[chr(195) . chr(150)] = 'Oe';
