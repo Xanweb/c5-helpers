@@ -1,13 +1,16 @@
 <?php
+
 namespace Xanweb\Helper;
 
-use voku\helper\UTF8;
 use Concrete\Core\Localization\Localization;
+use voku\helper\UTF8;
 
 class Str
 {
     /**
      * Replace special chars with normal ones.
+     *
+     * @param string $string
      */
     public static function removeAccents(string $string): string
     {

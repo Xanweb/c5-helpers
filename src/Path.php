@@ -1,10 +1,13 @@
 <?php
+
 namespace Xanweb\Helper;
 
 class Path
 {
     /**
      * Get absolute path from relative.
+     *
+     * @param string $relativePath
      */
     public static function getAbsolutePath(string $relativePath): string
     {
@@ -21,6 +24,8 @@ class Path
 
     /**
      * Check if path is absolute.
+     *
+     * @param string $path
      */
     public static function isAbsolutePath(string $path): bool
     {

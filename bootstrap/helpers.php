@@ -1,14 +1,39 @@
-<?php defined('C5_EXECUTE') or die('Access Denied.');
+<?php
 
-use Xanweb\Helper\Str;
+defined('C5_EXECUTE') or die('Access Denied.');
+
+use Concrete\Core\Support\Facade\Application;
 use Xanweb\Helper\Arr;
 use Xanweb\Helper\Path;
+use Xanweb\Helper\Str;
+
+if (!function_exists('c5app')) {
+    /**
+     * Resolve the given type from the container.
+     *
+     * @param string|null $abstract
+     * @param array $parameters
+     *
+     * @return mixed
+     */
+    function c5app(?string $abstract = null, array $parameters = [])
+    {
+        $app = Application::getFacadeApplication();
+
+        if ($abstract === null) {
+            return $app;
+        }
+
+        return $app->make($abstract, $parameters);
+    }
+}
 
 if (!function_exists('remove_accents')) {
     /**
      * Replace special chars with normal ones.
      *
      * @param  string  string with accents
+     * @param mixed $string
      *
      * @return mixed
      */
@@ -131,7 +156,7 @@ if (!function_exists('c5_date_format_custom')) {
      */
     function c5_date_format_custom($format, $value = 'now', $toTimezone = 'user', $fromTimezone = 'system')
     {
-        return app('date')->formatCustom($format, $value, $toTimezone, $fromTimezone);
+        return c5app('date')->formatCustom($format, $value, $toTimezone, $fromTimezone);
     }
 }
 
@@ -156,7 +181,7 @@ if (!function_exists('c5_date_format')) {
      */
     function c5_date_format($value = 'now', $format = 'short', $toTimezone = 'user')
     {
-        return app('date')->formatDate($value, $format, $toTimezone);
+        return c5app('date')->formatDate($value, $format, $toTimezone);
     }
 }
 
