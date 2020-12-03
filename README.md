@@ -9,6 +9,7 @@ Collection of useful helpers for Concrete5
 - [`is_countable`](https://php.net/is_countable) (From PHP 7.3 core)
 - `in_array_all` Verify that all needles are in haystack array.
 - `in_array_any` Verify that at least one of needles is in haystack array.
+- `strip_spaces` Remove all spaces from the given string.
 - `c5_date_format` An Alias of \Concrete\Core\Localization\Service\Date::formatDate().
 - `c5_date_format_custom` An Alias of \Concrete\Core\Localization\Service\Date::formatCustom().
 - `Xanweb\Helper\Page::getBlock` and `Xanweb\Helper\Page::getBlocks` for fetching block(s) from page

@@ -11,6 +11,8 @@ class Str
      * Replace special chars with normal ones.
      *
      * @param string $string
+     *
+     * @return string
      */
     public static function removeAccents(string $string): string
     {
@@ -240,5 +242,17 @@ class Str
         }
 
         return $string;
+    }
+
+    /**
+     * Remove all spaces from the given string.
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    public static function stripSpaces(string $string): string
+    {
+        return str_replace(' ', '', $string);
     }
 }

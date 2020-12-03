@@ -26,15 +26,29 @@ if (!function_exists('c5app')) {
     }
 }
 
+if (!function_exists('strip_spaces')) {
+    /**
+     * Remove all spaces from the given string.
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    function strip_spaces(string $string): string
+    {
+        return Str::stripSpaces($string);
+    }
+}
+
 if (!function_exists('remove_accents')) {
     /**
      * Replace special chars with normal ones.
      *
      * @param string $string with accents
      *
-     * @return mixed
+     * @return string
      */
-    function remove_accents(string $string)
+    function remove_accents(string $string): string
     {
         return Str::removeAccents($string);
     }
@@ -48,7 +62,7 @@ if (!function_exists('absolute_path')) {
      *
      * @return string
      */
-    function absolute_path(string $relativePath)
+    function absolute_path(string $relativePath): string
     {
         return Path::getAbsolutePath($relativePath);
     }
@@ -60,9 +74,9 @@ if (!function_exists('is_absolute_path')) {
      *
      * @param string $path
      *
-     * @return string
+     * @return bool
      */
-    function is_absolute_path(string $path)
+    function is_absolute_path(string $path): bool
     {
         return Path::isAbsolutePath($path);
     }
@@ -219,7 +233,7 @@ if (!function_exists('in_array_all')) {
      *
      * @return bool
      */
-    function in_array_all(array $needles, array $haystack)
+    function in_array_all(array $needles, array $haystack): bool
     {
         return Arr::inArrayAll($needles, $haystack);
     }
@@ -234,7 +248,7 @@ if (!function_exists('in_array_any')) {
      *
      * @return bool
      */
-    function in_array_any(array $needles, array $haystack)
+    function in_array_any(array $needles, array $haystack): bool
     {
         return Arr::inArrayAny($needles, $haystack);
     }
@@ -248,7 +262,7 @@ if (!function_exists('is_countable')) {
      *
      * @return bool
      */
-    function is_countable($value)
+    function is_countable($value): bool
     {
         return Arr::isCountable($value);
     }
