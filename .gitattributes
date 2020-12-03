@@ -1,9 +1,6 @@
 * text=auto
 
-/bin/ export-ignore
-/docs/ export-ignore
 /tests/ export-ignore
 /.* export-ignore
-/*.yml export-ignore
 /*.xml export-ignore
 /README.md export-ignore

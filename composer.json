@@ -15,16 +15,6 @@
             "Xanweb\\Helper\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Xanweb\\Helper\\Tests\\": "tests/"
-        }
-    },
-    "require-dev": {
-        "voku/urlify": "~1.0.1",
-        "mockery/mockery": "^1.3.0",
-        "phpunit/phpunit": "^8.3"
-    },
     "support": {
         "source": "https://github.com/xanweb/c5-helpers"
     }
