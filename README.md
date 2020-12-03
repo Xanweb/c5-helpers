@@ -11,10 +11,51 @@ Collection of useful helpers for Concrete5
 - `in_array_any` Verify that at least one of needles is in haystack array.
 - `c5_date_format` An Alias of \Concrete\Core\Localization\Service\Date::formatDate().
 - `c5_date_format_custom` An Alias of \Concrete\Core\Localization\Service\Date::formatCustom().
+- `Xanweb\Helper\Page::getBlock` and `Xanweb\Helper\Page::getBlocks` for fetching block(s) from page
 
 ## Installation
 
 Include library to your composer.json
 ```bash
 composer require xanweb/c5-helpers
+```
+
+#### Usage of Xanweb\Helper\Page
+
+```php 
+    use Xanweb\Helper\Page as PageHelper;
+
+    $ph = new PageHelper(
+        $page, // Page Object
+        ['Header', 'Footer'] // Optional argument to exclude some areas from fetching
+    );
+    
+    // Get the first valid instance of required block
+    $contentBlockController = $ph->getBlock(
+        'content', // Block Type Handle 
+        function (BlockController $bController) { // Optional callable to test for valid block
+            return !empty($bController->getContent())
+        }
+    );
+
+    // Get the first valid instances of required blocks
+    $blocksControllers = $ph->getBlocks(
+        ['image', 'content'], // Block Types Handle 
+        function (BlockController $bController) { // Optional callable to test for valid block
+            if ($bController instanceof \Concrete\Block\Image\Controller) {
+                return is_object($this->getFileObject());
+            }
+
+            if ($bController instanceof \Concrete\Block\Content\Controller) {
+                return !empty($bController->getContent())
+            }
+
+            return false;
+        }
+    );
+
+    /**
+     *  - $blocksControllers array is indexed by btHandle: ['image' => $bController, 'content' => $bController]
+     *  - If no block is found $blocksControllers will be an empty array 
+     */  
 ```
