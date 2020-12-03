@@ -225,7 +225,7 @@ if (!function_exists('in_array_all')) {
     }
 }
 
-if (!function_exists('in_array_all')) {
+if (!function_exists('in_array_any')) {
     /**
      * Verify that at least one of needles is in haystack array.
      *
