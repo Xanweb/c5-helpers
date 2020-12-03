@@ -1,8 +1,13 @@
+# ignore composer files
+composer.lock
+/vendor/
+
+# ignore PHP symbol map
+__IDE_SYMBOLS__.php
+.phpstorm.meta.php
+
 # phpunit
 .phpunit.result.cache
 
 # php-cs-fixer
 .php_cs.cache
-
-/vendor/
-/composer.lock
