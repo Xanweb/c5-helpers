@@ -34,7 +34,7 @@ composer require xanweb/c5-helpers
     $contentBlockController = $ph->getBlock(
         'content', // Block Type Handle 
         function (BlockController $bController) { // Optional callable to test for valid block
-            return !empty($bController->getContent())
+            return !empty($bController->getContent());
         }
     );
 
@@ -47,7 +47,7 @@ composer require xanweb/c5-helpers
             }
 
             if ($bController instanceof \Concrete\Block\Content\Controller) {
-                return !empty($bController->getContent())
+                return !empty($bController->getContent());
             }
 
             return false;
