@@ -1,7 +1,5 @@
 <?php
 
-defined('C5_EXECUTE') or die('Access Denied.');
-
 use Concrete\Core\Support\Facade\Application;
 use Xanweb\Helper\Arr;
 use Xanweb\Helper\Path;
@@ -32,12 +30,11 @@ if (!function_exists('remove_accents')) {
     /**
      * Replace special chars with normal ones.
      *
-     * @param  string  string with accents
-     * @param mixed $string
+     * @param string $string with accents
      *
      * @return mixed
      */
-    function remove_accents($string)
+    function remove_accents(string $string)
     {
         return Str::removeAccents($string);
     }
@@ -51,7 +48,7 @@ if (!function_exists('absolute_path')) {
      *
      * @return string
      */
-    function absolute_path($relativePath)
+    function absolute_path(string $relativePath)
     {
         return Path::getAbsolutePath($relativePath);
     }
@@ -65,7 +62,7 @@ if (!function_exists('is_absolute_path')) {
      *
      * @return string
      */
-    function is_absolute_path($path)
+    function is_absolute_path(string $path)
     {
         return Path::isAbsolutePath($path);
     }
@@ -210,5 +207,49 @@ if (!function_exists('array_key_last')) {
     function array_key_last(array $array)
     {
         return Arr::lastKey($array);
+    }
+}
+
+if (!function_exists('in_array_all')) {
+    /**
+     * Verify that all needles are in haystack array.
+     *
+     * @param array $needles
+     * @param array $haystack
+     *
+     * @return bool
+     */
+    function in_array_all(array $needles, array $haystack)
+    {
+        return Arr::inArrayAll($needles, $haystack);
+    }
+}
+
+if (!function_exists('in_array_all')) {
+    /**
+     * Verify that at least one of needles is in haystack array.
+     *
+     * @param array $needles
+     * @param array $haystack
+     *
+     * @return bool
+     */
+    function in_array_any(array $needles, array $haystack)
+    {
+        return Arr::inArrayAny($needles, $haystack);
+    }
+}
+
+if (!function_exists('is_countable')) {
+    /**
+     * Verify that the contents of a variable is a countable value.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    function is_countable($value)
+    {
+        return Arr::isCountable($value);
     }
 }
