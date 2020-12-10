@@ -9,10 +9,10 @@
     },
     "autoload": {
         "files": [
-            "bootstrap/helpers.php"
+            "bootstrap.php"
         ],
         "psr-4": {
-            "Xanweb\\Helper\\": "src/"
+            "Xanweb\\Helper\\": ""
         }
     },
     "support": {
