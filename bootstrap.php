@@ -1,5 +1,6 @@
 <?php
 
+use Concrete\Core\Multilingual\Page\Section\Section;
 use Concrete\Core\Support\Facade\Application;
 use Xanweb\Helper\Arr;
 use Xanweb\Helper\Path;
@@ -144,7 +145,7 @@ if (!function_exists('current_locale')) {
      */
     function current_locale(): string
     {
-        $section = MultilingualSection::getCurrentSection();
+        $section = Section::getCurrentSection();
         $locale = is_object($section) ? $section->getLocale() : null;
 
         return $locale ?? Localization::activeLocale();
