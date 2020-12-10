@@ -82,13 +82,13 @@ if (!function_exists('is_absolute_path')) {
     }
 }
 
-if (!function_exists('get_theme_path')) {
+if (!function_exists('theme_path')) {
     /**
      * Get theme relative path.
      *
      * @return string
      */
-    function get_theme_path()
+    function theme_path(): string
     {
         static $themePath;
 
@@ -100,33 +100,54 @@ if (!function_exists('get_theme_path')) {
     }
 }
 
-if (!function_exists('get_active_language')) {
+if (!function_exists('active_language')) {
+    /**
+     * Get Active Contextual Language en|de...
+     *
+     * @return string
+     */
+    function active_language(): string
+    {
+        return Localization::activeLanguage();
+    }
+}
+
+if (!function_exists('active_locale')) {
+    /**
+     * Get Active Contextual Locale en_US|de_DE...
+     *
+     * @return string
+     */
+    function active_locale(): string
+    {
+        return Localization::activeLocale();
+    }
+}
+
+if (!function_exists('current_language')) {
     /**
      * Get Active Site Language en|de...
      *
      * @return string
      */
-    function get_active_language()
+    function current_language(): string
     {
-        return current(explode('_', get_active_locale()));
+        return \current(\explode('_', current_locale()));
     }
 }
 
-if (!function_exists('get_active_locale')) {
+if (!function_exists('current_locale')) {
     /**
-     * Get Active Site Locale en_US|de_DE...
+     * Get Current Page Locale
      *
      * @return string
      */
-    function get_active_locale()
+    function current_locale(): string
     {
         $section = MultilingualSection::getCurrentSection();
+        $locale = is_object($section) ? $section->getLocale() : null;
 
-        if (is_object($section)) {
-            return $section->getLocale();
-        }
-
-        return Localization::activeLocale();
+        return $locale ?? Localization::activeLocale();
     }
 }
 
@@ -266,4 +287,25 @@ if (!function_exists('is_countable')) {
     {
         return Arr::isCountable($value);
     }
+}
+
+if (!function_exists('get_theme_path')) {
+    /**
+     * @deprecated use theme_path()
+     */
+    function get_theme_path() { return theme_path(); }
+}
+
+if (!function_exists('get_active_locale')) {
+    /**
+     * @deprecated use current_locale()
+     */
+    function get_active_locale() { return current_locale(); }
+}
+
+if (!function_exists('get_active_language')) {
+    /**
+     * @deprecated use current_language()
+     */
+    function get_active_language() { return current_language(); }
 }
