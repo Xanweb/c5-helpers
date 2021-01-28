@@ -7,6 +7,7 @@ use Concrete\Core\Block\BlockController;
 use Concrete\Core\Cache\Level\ExpensiveCache;
 use Concrete\Core\Database\Connection\Connection;
 use Concrete\Core\Page\Page as PageObject;
+use Concrete\Core\Support\Facade\Application;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 class Page
@@ -36,12 +37,18 @@ class Page
      */
     private $excludeAreas;
 
+    /**
+     * Page constructor.
+     *
+     * @param PageObject $page
+     * @param array|null $excludeAreas List of area handles that will be excluded from fetching
+     */
     public function __construct(PageObject $page, ?array $excludeAreas = null)
     {
         $this->page = $page;
-
-        $this->excludeAreas = $excludeAreas ?? c5app('config')->get('xanweb.helpers.page_helper.exclude_areas', []);
-        $this->excludeAreas = array_flip(array_unique($this->excludeAreas));
+        $this->excludeAreas = array_flip(
+            array_unique($excludeAreas ?? self::getExcludedAreasConfig())
+        );
     }
 
     /**
@@ -169,5 +176,17 @@ class Page
         }
 
         return clone self::$fetchQuery;
+    }
+
+    private static function getExcludedAreasConfig(): array
+    {
+        static $excludedAreasConfig;
+
+        if (!$excludedAreasConfig) {
+            $app = Application::getFacadeApplication();
+            $excludedAreasConfig = $app['config']->get('xanweb.helpers.page_helper.exclude_areas', []);
+        }
+
+        return $excludedAreasConfig;
     }
 }
