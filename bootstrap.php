@@ -139,7 +139,7 @@ if (!function_exists('current_language')) {
 
 if (!function_exists('current_locale')) {
     /**
-     * Get Current Page Locale
+     * Get Current Page Locale.
      *
      * @return string
      */
