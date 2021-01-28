@@ -16,7 +16,7 @@ class Path
         }
 
         if (!starts_with($relativePath, ['/', '\\'])) {
-            $relativePath = DIRECTORY_SEPARATOR . $relativePath;
+            $relativePath = '/' . $relativePath;
         }
 
         return DIR_BASE . $relativePath;
@@ -29,6 +29,6 @@ class Path
      */
     public static function isAbsolutePath(string $path): bool
     {
-        return strpos($path, DIR_BASE) !== false;
+        return strpos(str_replace(DIRECTORY_SEPARATOR, '/', $path), DIR_BASE) !== false;
     }
 }
