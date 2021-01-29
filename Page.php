@@ -7,11 +7,13 @@ use Concrete\Core\Block\BlockController;
 use Concrete\Core\Cache\Level\ExpensiveCache;
 use Concrete\Core\Database\Connection\Connection;
 use Concrete\Core\Page\Page as PageObject;
-use Concrete\Core\Support\Facade\Application;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Xanweb\Common\Traits\StaticApplicationTrait;
 
 class Page
 {
+    use StaticApplicationTrait;
+
     /**
      * @var Connection
      */
@@ -43,7 +45,7 @@ class Page
      * @param PageObject $page
      * @param array|null $excludeAreas List of area handles that will be excluded from fetching
      */
-    public function __construct(PageObject $page, ?array $excludeAreas = null)
+    public function __construct(PageObject $page, ?array $excludeAreas)
     {
         $this->page = $page;
         $this->excludeAreas = array_flip(
@@ -60,7 +62,7 @@ class Page
      *
      * @return BlockController|null
      */
-    public function getBlock(string $btHandle, ?callable $dataValidator = null): ?BlockController
+    public function getBlock(string $btHandle, ?callable $dataValidator): ?BlockController
     {
         $dataValidator = $dataValidator ?? static function ($bController) { return true; };
         $blockIDs = $this->fetchPageBlocks();
@@ -88,7 +90,7 @@ class Page
      *
      * @return BlockController[] array indexed by block type handle
      */
-    public function getBlocks(array $btHandles, ?callable $dataValidator = null): array
+    public function getBlocks(array $btHandles, ?callable $dataValidator): array
     {
         $dataValidator = $dataValidator ?? static function ($bController) { return true; };
         $blockIDs = $this->fetchPageBlocks();
@@ -119,7 +121,7 @@ class Page
     final protected static function database(): Connection
     {
         if (!self::$db) {
-            self::$db = c5app('database/connection');
+            self::$db = self::app('database/connection');
         }
 
         return self::$db;
@@ -128,7 +130,7 @@ class Page
     final protected static function cache(): ExpensiveCache
     {
         if (!self::$cache) {
-            self::$cache = c5app('cache/expensive');
+            self::$cache = self::app('cache/expensive');
         }
 
         return self::$cache;
@@ -183,8 +185,7 @@ class Page
         static $excludedAreasConfig;
 
         if (!$excludedAreasConfig) {
-            $app = Application::getFacadeApplication();
-            $excludedAreasConfig = $app['config']->get('xanweb.helpers.page_helper.exclude_areas', []);
+            $excludedAreasConfig = self::app('config')->get('xanweb.helpers.page_helper.exclude_areas', []);
         }
 
         return $excludedAreasConfig;
