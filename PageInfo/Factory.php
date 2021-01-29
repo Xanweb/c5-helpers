@@ -30,12 +30,18 @@ class Factory
      */
     private $defaultConfig;
 
-    public function __construct(Config $defaultConfig, PageUrlResolver $urlResolver)
+    /**
+     * Factory constructor.
+     *
+     * @param Config|null $defaultConfig
+     */
+    public function __construct(?Config $defaultConfig)
     {
-        $this->urlResolver = $urlResolver;
-        $this->dh = $this->app('date');
-        $this->th = $this->app('helper/text');
-        $this->defaultConfig = $defaultConfig;
+        $app = $this->app();
+        $this->urlResolver = $app->make(PageUrlResolver::class);
+        $this->dh = $app->make('date');
+        $this->th = $app->make('helper/text');
+        $this->defaultConfig = $defaultConfig ?? ConfigManager::getDefault();
     }
 
     /**
@@ -46,7 +52,7 @@ class Factory
      *
      * @return PageInfo|null Return PageInfo object or Null if page has COLLECTION_NOT_FOUND Error
      */
-    public function build(Page $page, Config $config = null): ?PageInfo
+    public function build(Page $page, ?Config $config): ?PageInfo
     {
         $pageInfo = null;
         if ($page->getError() !== COLLECTION_NOT_FOUND) {
