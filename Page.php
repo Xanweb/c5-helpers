@@ -45,7 +45,7 @@ class Page
      * @param PageObject $page
      * @param array|null $excludeAreas List of area handles that will be excluded from fetching
      */
-    public function __construct(PageObject $page, ?array $excludeAreas)
+    public function __construct(PageObject $page, ?array $excludeAreas = null)
     {
         $this->page = $page;
         $this->excludeAreas = array_flip(
@@ -62,7 +62,7 @@ class Page
      *
      * @return BlockController|null
      */
-    public function getBlock(string $btHandle, ?callable $dataValidator): ?BlockController
+    public function getBlock(string $btHandle, ?callable $dataValidator = null): ?BlockController
     {
         $dataValidator = $dataValidator ?? static function ($bController) { return true; };
         $blockIDs = $this->fetchPageBlocks();
@@ -90,7 +90,7 @@ class Page
      *
      * @return BlockController[] array indexed by block type handle
      */
-    public function getBlocks(array $btHandles, ?callable $dataValidator): array
+    public function getBlocks(array $btHandles, ?callable $dataValidator = null): array
     {
         $dataValidator = $dataValidator ?? static function ($bController) { return true; };
         $blockIDs = $this->fetchPageBlocks();

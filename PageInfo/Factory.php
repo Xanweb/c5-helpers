@@ -35,7 +35,7 @@ class Factory
      *
      * @param Config|null $defaultConfig
      */
-    public function __construct(?Config $defaultConfig)
+    public function __construct(?Config $defaultConfig = null)
     {
         $app = $this->app();
         $this->urlResolver = $app->make(PageUrlResolver::class);
@@ -52,7 +52,7 @@ class Factory
      *
      * @return PageInfo|null Return PageInfo object or Null if page has COLLECTION_NOT_FOUND Error
      */
-    public function build(Page $page, ?Config $config): ?PageInfo
+    public function build(Page $page, ?Config $config = null): ?PageInfo
     {
         $pageInfo = null;
         if ($page->getError() !== COLLECTION_NOT_FOUND) {
