@@ -34,6 +34,7 @@ composer require xanweb/c5-helpers
     $ph = new PageHelper(
         $page, // Page Object
         ['Header', 'Footer'] // Optional argument to exclude some areas from fetching
+        ['Main'] // Optional argument to include some areas in fetching
     );
     
     // Get the first valid instance of required block
