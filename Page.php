@@ -114,10 +114,13 @@ class Page
         foreach ($blockIDs as $row) {
             $btHandle = $row['btHandle'];
             $arHandle = $row['arHandle'];
-            if (!isset($blocks[$btHandle]) && !isset($this->excludeAreas[$arHandle]) && isset($btHandles[$btHandle])) {
+            if (!isset($blocks[$btHandle])
+                && isset($btHandles[$btHandle])
+                && ($this->includeAreas === null || $this->includeAreas === [] || isset($this->includeAreas[$btHandle]))
+                && !isset($this->excludeAreas[$arHandle])) {
                 $b = Block::getByID($row['bID'], $this->page, $arHandle);
 
-                if (is_object($b) && $dataValidator($bController = $b->getController())) {
+                if ($b !== null && $dataValidator($bController = $b->getController())) {
                     $blocks[$btHandle] = $bController;
                     if ($handlesCount === ++$i) {
                         break;
