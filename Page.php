@@ -51,14 +51,14 @@ class Page
      * @param array|null $excludeAreas List of area handles that will be excluded from fetching.
      * @param array|null $includeAreas List of area handles that will be included in fetching.
      */
-    public function __construct(PageObject $page, ?array $excludeAreas = null, ?array $includeAreas = null)
+    public function __construct(PageObject $page, ?array $excludeAreas = null, array $includeAreas = [])
     {
         $this->page = $page;
         $this->excludeAreas = array_flip(
             array_unique($excludeAreas ?? self::getExcludedAreasConfig())
         );
 
-        $this->includeAreas = $includeAreas ? array_flip(array_unique($includeAreas)) : null;
+        $this->includeAreas = ($includeAreas !== []) ? array_flip(array_unique($includeAreas)) : null;
     }
 
     /**
@@ -79,7 +79,7 @@ class Page
         foreach ($blockIDs as $row) {
             $_btHandle = $row['btHandle'];
             if ($_btHandle === $btHandle
-                && ($this->includeAreas === null || $this->includeAreas === [] || isset($this->includeAreas[$_btHandle]))
+                && ($this->includeAreas === null || isset($this->includeAreas[$_btHandle]))
                 && !isset($this->excludeAreas[$_btHandle])) {
                 $b = Block::getByID($row['bID'], $this->page, $row['arHandle']);
                 if ($b !== null && $dataValidator($bController = $b->getController())) {
@@ -116,7 +116,7 @@ class Page
             $arHandle = $row['arHandle'];
             if (!isset($blocks[$btHandle])
                 && isset($btHandles[$btHandle])
-                && ($this->includeAreas === null || $this->includeAreas === [] || isset($this->includeAreas[$btHandle]))
+                && ($this->includeAreas === null || isset($this->includeAreas[$btHandle]))
                 && !isset($this->excludeAreas[$arHandle])) {
                 $b = Block::getByID($row['bID'], $this->page, $arHandle);
 
