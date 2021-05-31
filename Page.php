@@ -37,20 +37,28 @@ class Page
     /**
      * @var array
      */
+    private $includeAreas;
+
+    /**
+     * @var array
+     */
     private $excludeAreas;
 
     /**
      * Page constructor.
      *
      * @param PageObject $page
-     * @param array|null $excludeAreas List of area handles that will be excluded from fetching
+     * @param array|null $excludeAreas List of area handles that will be excluded from fetching.
+     * @param array|null $includeAreas List of area handles that will be included in fetching.
      */
-    public function __construct(PageObject $page, ?array $excludeAreas = null)
+    public function __construct(PageObject $page, ?array $excludeAreas = null, ?array $includeAreas = null)
     {
         $this->page = $page;
         $this->excludeAreas = array_flip(
             array_unique($excludeAreas ?? self::getExcludedAreasConfig())
         );
+
+        $this->includeAreas = $includeAreas ? array_flip(array_unique($includeAreas)) : null;
     }
 
     /**
@@ -69,9 +77,12 @@ class Page
 
         $block = null;
         foreach ($blockIDs as $row) {
-            if ($row['btHandle'] === $btHandle && !isset($this->excludeAreas[$row['arHandle']])) {
+            $_btHandle = $row['btHandle'];
+            if ($_btHandle === $btHandle
+                && ($this->includeAreas === null || $this->includeAreas === [] || isset($this->includeAreas[$_btHandle]))
+                && !isset($this->excludeAreas[$_btHandle])) {
                 $b = Block::getByID($row['bID'], $this->page, $row['arHandle']);
-                if (is_object($b) && $dataValidator($bController = $b->getController())) {
+                if ($b !== null && $dataValidator($bController = $b->getController())) {
                     $block = $bController;
                     break;
                 }
@@ -150,7 +161,6 @@ class Page
         ]);
 
         $blocks = $qb->execute()->fetchAll();
-
         $cache->save($item->set($blocks));
 
         return $blocks;
