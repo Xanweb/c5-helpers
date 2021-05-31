@@ -78,10 +78,11 @@ class Page
         $block = null;
         foreach ($blockIDs as $row) {
             $_btHandle = $row['btHandle'];
+            $_arHandle = $row['arHandle'];
             if ($_btHandle === $btHandle
-                && ($this->includeAreas === null || isset($this->includeAreas[$_btHandle]))
-                && !isset($this->excludeAreas[$_btHandle])) {
-                $b = Block::getByID($row['bID'], $this->page, $row['arHandle']);
+                && ($this->includeAreas === null || isset($this->includeAreas[$_arHandle]))
+                && !isset($this->excludeAreas[$_arHandle])) {
+                $b = Block::getByID($row['bID'], $this->page, $_arHandle);
                 if ($b !== null && $dataValidator($bController = $b->getController())) {
                     $block = $bController;
                     break;
@@ -116,7 +117,7 @@ class Page
             $arHandle = $row['arHandle'];
             if (!isset($blocks[$btHandle])
                 && isset($btHandles[$btHandle])
-                && ($this->includeAreas === null || isset($this->includeAreas[$btHandle]))
+                && ($this->includeAreas === null || isset($this->includeAreas[$arHandle]))
                 && !isset($this->excludeAreas[$arHandle])) {
                 $b = Block::getByID($row['bID'], $this->page, $arHandle);
 
