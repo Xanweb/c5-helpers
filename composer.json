@@ -1,7 +1,7 @@
 {
     "name": "xanweb/c5-helpers",
-    "description": "Concrete5 Helpers Suite",
-    "keywords": ["concrete5", "concrete5-v8", "helpers"],
+    "description": "ConcreteCMS Helpers Suite",
+    "keywords": ["ConcreteCMS", "concrete5", "concrete5-v8", "concrete5-v9", "helpers"],
     "type": "library",
     "license": "MIT",
     "require": {
