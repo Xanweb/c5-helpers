@@ -5,8 +5,8 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
-        "xanweb/c5-common": "^1.0"
+        "php": ">=7.4",
+        "xanweb/c5-common": "^1.2"
     },
     "autoload": {
         "files": [

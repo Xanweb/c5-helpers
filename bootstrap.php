@@ -218,34 +218,6 @@ if (!function_exists('c5_date_format')) {
     }
 }
 
-if (!function_exists('array_key_first')) {
-    /**
-     * Gets the first key of an array.
-     *
-     * @param array $array
-     *
-     * @return mixed
-     */
-    function array_key_first(array $array)
-    {
-        return Arr::firstKey($array);
-    }
-}
-
-if (!function_exists('array_key_last')) {
-    /**
-     * Gets the last key of an array.
-     *
-     * @param array $array
-     *
-     * @return mixed
-     */
-    function array_key_last(array $array)
-    {
-        return Arr::lastKey($array);
-    }
-}
-
 if (!function_exists('in_array_all')) {
     /**
      * Verify that all needles are in haystack array.
@@ -274,39 +246,4 @@ if (!function_exists('in_array_any')) {
     {
         return Arr::inArrayAny($needles, $haystack);
     }
-}
-
-if (!function_exists('is_countable')) {
-    /**
-     * Verify that the contents of a variable is a countable value.
-     *
-     * @param mixed $value
-     *
-     * @return bool
-     */
-    function is_countable($value): bool
-    {
-        return Arr::isCountable($value);
-    }
-}
-
-if (!function_exists('get_theme_path')) {
-    /**
-     * @deprecated use theme_path()
-     */
-    function get_theme_path() { return theme_path(); }
-}
-
-if (!function_exists('get_active_locale')) {
-    /**
-     * @deprecated use current_locale()
-     */
-    function get_active_locale() { return current_locale(); }
-}
-
-if (!function_exists('get_active_language')) {
-    /**
-     * @deprecated use current_language()
-     */
-    function get_active_language() { return current_language(); }
 }

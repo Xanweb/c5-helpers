@@ -17,32 +17,32 @@ class Page
     /**
      * @var Connection
      */
-    private static $db;
+    private static Connection $db;
 
     /**
      * @var ExpensiveCache
      */
-    private static $cache;
+    private static ExpensiveCache $cache;
 
     /**
      * @var QueryBuilder
      */
-    private static $fetchQuery;
+    private static QueryBuilder $fetchQuery;
 
     /**
      * @var PageObject
      */
-    private $page;
+    private PageObject $page;
+
+    /**
+     * @var array|null
+     */
+    private ?array $includeAreas;
 
     /**
      * @var array
      */
-    private $includeAreas;
-
-    /**
-     * @var array
-     */
-    private $excludeAreas;
+    private array $excludeAreas;
 
     /**
      * Page constructor.
@@ -72,7 +72,7 @@ class Page
      */
     public function getBlock(string $btHandle, ?callable $dataValidator = null): ?BlockController
     {
-        $dataValidator = $dataValidator ?? static function ($bController) { return true; };
+        $dataValidator ??= static fn ($bController) => true;
         $blockIDs = $this->fetchPageBlocks();
 
         $block = null;
@@ -104,7 +104,7 @@ class Page
      */
     public function getBlocks(array $btHandles, ?callable $dataValidator = null): array
     {
-        $dataValidator = $dataValidator ?? static function ($bController) { return true; };
+        $dataValidator ??= static fn ($bController) => true;
         $blockIDs = $this->fetchPageBlocks();
 
         $blocks = [];
@@ -135,20 +135,12 @@ class Page
 
     final protected static function database(): Connection
     {
-        if (!self::$db) {
-            self::$db = self::app('database/connection');
-        }
-
-        return self::$db;
+        return self::$db ?? self::$db = self::app('database/connection');
     }
 
     final protected static function cache(): ExpensiveCache
     {
-        if (!self::$cache) {
-            self::$cache = self::app('cache/expensive');
-        }
-
-        return self::$cache;
+        return self::$cache ?? self::$cache = self::app('cache/expensive');
     }
 
     private function fetchPageBlocks(): array
