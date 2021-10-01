@@ -164,7 +164,7 @@ class Page
 
     private static function getFetchQuery(): QueryBuilder
     {
-        if (!self::$fetchQuery) {
+        if (!isset(self::$fetchQuery)) {
             $db = self::database();
 
             $qb = $db->createQueryBuilder()->select('b.bID', 'bt.btHandle', 'cvb.arHandle')
