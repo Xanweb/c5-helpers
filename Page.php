@@ -145,10 +145,16 @@ class Page
 
     private function fetchPageBlocks(): array
     {
-        $cache = self::cache();
-        $item = $cache->getItem(sprintf('xw/page_helper/%s_%s', $this->page->getCollectionID(), $this->page->getVersionID()));
-        if (!$item->isMiss()) {
-            return (array) $item->get();
+        /**
+         * Only approved versions should be cached.
+         */
+        $vObj = $this->page->getVersionObject();
+        if ($vObj !== null && $vObj->isApproved()) {
+            $cache = self::cache();
+            $item = $cache->getItem(sprintf('xw/page_helper/%s_%s', $this->page->getCollectionID(), $this->page->getVersionID()));
+            if (!$item->isMiss()) {
+                return (array) $item->get();
+            }
         }
 
         $qb = self::getFetchQuery();
@@ -157,7 +163,10 @@ class Page
         ]);
 
         $blocks = $qb->execute()->fetchAll();
-        $cache->save($item->set($blocks));
+
+        if ($vObj !== null && $vObj->isApproved()) {
+            $cache->save($item->set($blocks));
+        }
 
         return $blocks;
     }
@@ -173,9 +182,9 @@ class Page
                 ->innerJoin('b', 'BlockTypes', 'bt', 'b.btID = bt.btID');
 
             $expr = $qb->expr();
-            $qb->where($expr->andX(
+            $qb->where($expr->and(
                 $expr->eq('cvb.cID', ':cID'),
-                $expr->orX($expr->eq('cvb.cvID', ':cvID'), $expr->eq('cvb.cbIncludeAll', 1))
+                $expr->or($expr->eq('cvb.cvID', ':cvID'), $expr->eq('cvb.cbIncludeAll', 1))
             ));
 
             $qb->orderBy('cvb.cbDisplayOrder');
