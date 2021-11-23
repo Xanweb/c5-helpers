@@ -204,10 +204,6 @@ class Page
     {
         static $excludedAreasConfig;
 
-        if (!$excludedAreasConfig) {
-            $excludedAreasConfig = self::app('config')->get('xanweb.helpers.page_helper.exclude_areas', []);
-        }
-
-        return $excludedAreasConfig;
+        return $excludedAreasConfig ??= self::app('config')->get('xanweb.helpers.page_helper.exclude_areas', []);
     }
 }
