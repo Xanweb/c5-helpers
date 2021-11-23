@@ -143,7 +143,12 @@ class Page
         return self::$cache ?? self::$cache = self::app('cache/expensive');
     }
 
-    private function fetchPageBlocks(): array
+    /**
+     * Return all blocks IDs list used in that page.
+     *
+     * @return array
+     */
+    public function fetchPageBlocks(): array
     {
         /**
          * Only approved versions should be cached.
