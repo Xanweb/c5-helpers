@@ -62,6 +62,51 @@ class Page
     }
 
     /**
+     * Get all used blocks (that assert $dataValidator) by handle from page.
+     *
+     * @param string $btHandle
+     * @param callable|null $dataValidator myFunction(BlockController $bController): bool
+     *
+     * @return BlockController[]
+     */
+    public function getBlocksByHandle(string $btHandle, ?callable $dataValidator = null): array
+    {
+        return $this->getBlocksByHandles([$btHandle], $dataValidator);
+    }
+
+    /**
+     * Get all used blocks (that assert $dataValidator) by handles from page.
+     *
+     * @param string[] $btHandles
+     * @param callable|null $dataValidator myFunction(BlockController $bController): bool
+     *
+     * @return BlockController[]
+     */
+    public function getBlocksByHandles(array $btHandles, ?callable $dataValidator = null): array
+    {
+        $dataValidator ??= static fn ($bController) => true;
+        $_btHandles = array_flip(array_unique($btHandles));
+        $blockIDs = $this->fetchPageBlocks();
+
+        $blocks = [];
+        foreach ($blockIDs as $row) {
+            $_btHandle = $row['btHandle'];
+            $_arHandle = $row['arHandle'];
+            if (isset($_btHandles[$_btHandle])
+                && ($this->includeAreas === null || isset($this->includeAreas[$_arHandle]))
+                && !isset($this->excludeAreas[$_arHandle])) {
+                $b = Block::getByID($row['bID'], $this->page, $_arHandle);
+                if ($b !== null && $dataValidator($bController = $b->getController())) {
+                    $blocks[] = $bController;
+                    break;
+                }
+            }
+        }
+
+        return $blocks;
+    }
+
+    /**
      * Get block by handle from page.
      * If no data validation is given then first block occurrence will be returned.
      *
@@ -146,7 +191,7 @@ class Page
     /**
      * Return all blocks IDs list used in that page.
      *
-     * @return array
+     * @return array{bID: int, btHandle: string, arHandle: string}
      */
     public function fetchPageBlocks(): array
     {
