@@ -180,12 +180,12 @@ class Page
 
     final protected static function database(): Connection
     {
-        return self::$db ?? self::$db = self::app('database/connection');
+        return self::$db ??= self::app('database/connection');
     }
 
     final protected static function cache(): ExpensiveCache
     {
-        return self::$cache ?? self::$cache = self::app('cache/expensive');
+        return self::$cache ??= self::app('cache/expensive');
     }
 
     /**
